@@ -14,3 +14,11 @@ fit_aluminum_asthma <- lm("asthma_prev ~ I(DTAP + HepB+ Hib + PCV + Polio) ", a,
 fit_aluminum_epilepsy <- lm("epilepsy_prev ~ I(DTAP + HepB+ Hib + PCV + Polio) ", a, weights=a$epilepsy_count)
 fit_aluminum_diabetes <- lm("diabetes_prev ~ I(DTAP + HepB+ Hib + PCV + Polio) ", a, weights=a$diabetes_count)
 fit_aluminum_tourettes <- lm("tourettes_prev ~ I(DTAP + HepB+ Hib + PCV + Polio) ", a, weights=a$tourettes_count)
+
+summary(fit_aluminum_asd)
+summary(fit_aluminum_allergies)
+summary(fit_aluminum_adhd)
+summary(fit_aluminum_asthma)
+summary(fit_aluminum_epilepsy)
+summary(fit_aluminum_diabetes)
+summary(fit_aluminum_tourettes)
