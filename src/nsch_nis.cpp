@@ -31,6 +31,8 @@ struct row
 	int hospital_er;
 	int arthritis;
 	int tourettes;
+	int mom_age;
+	int sc_age;
 };
 
 struct nsch_data
@@ -55,6 +57,8 @@ struct nsch_data
 	int arthritis_count;
 	double tourettes_prevalence;
 	int tourettes_count;
+	double mom_age;
+	int mom_count;
 };
 
 struct nis
@@ -127,10 +131,18 @@ void extractNsch()
 			{
 				r.state = atoi(str.c_str());
 			}
+			if(i == 8)
+			{
+				r.sc_age = atoi(str.c_str());
+			}
 			if(i == 12)
 			{
 				r.birth_yr = atoi(str.c_str());
 				//printf("birth year = %s\n", str.c_str());
+			}
+			if(i == 13)
+			{
+				r.mom_age = atoi(str.c_str());
 			}
 			if(i == 108)
 			{
@@ -203,11 +215,18 @@ void computePrevalence(int year, int region)
 	int arthritis_total = 0;
 	int tourettes_yes = 0;
 	int tourettes_total = 0;
+	int mom_age = 0;
+	int mom_total = 0;
 
 	for(auto r : v_rows)
 	{
 		if(r.birth_yr == year && r.state == region)
 		{
+			if(r.mom_age < 95 && r.sc_age < 95)
+			{
+				mom_age += (r.mom_age - r.sc_age);
+				mom_total++;
+			}
 			if(r.asd == 1 || r.asd == 2)
 			{
 				asd_total++;
@@ -291,7 +310,8 @@ void computePrevalence(int year, int region)
 	data.arthritis_prevalence = (double)arthritis_yes/(double)arthritis_total;
 	data.tourettes_count = tourettes_total;
 	data.tourettes_prevalence = (double)tourettes_yes/(double)tourettes_total;
-
+	data.mom_count = mom_total;
+	data.mom_age = (double)mom_age/(double)mom_total;
 
 	//printf("autism prevalence in %d for region %d = %lf, based on %d samples\n",
 	//		year, region, data.prevalence, data.count);
@@ -400,7 +420,7 @@ void outputData()
 	printf("year,region,asd_prev,asd_count,allergies_prev,allergies_count");
 	printf(",adhd_prev,adhd_count,asthma_prev,asthma_count,epilepsy_prev,epilepsy_count");
 	printf(",diabetes_prev,diabetes_count,hospital_prev,hopital_count");
-	printf(",hospital_er_prev,hopital_er_count,arthritis_prev,arthritis_count,tourettes_prev,tourettes_count");
+	printf(",hospital_er_prev,hopital_er_count,arthritis_prev,arthritis_count,tourettes_prev,tourettes_count,mom_age,mom_total");
 	for(auto p : nis_map)
 	{
 		printf(",%s", p.first.c_str());
@@ -411,7 +431,7 @@ void outputData()
 	{
 		for(auto p : state_code_map)
 		{
-			printf("%d,%d,%lf,%d,%lf,%d,%lf,%d,%lf,%d,%lf,%d,%lf,%d,%lf,%d,%lf,%d,%lf,%d,%lf,%d",
+			printf("%d,%d,%lf,%d,%lf,%d,%lf,%d,%lf,%d,%lf,%d,%lf,%d,%lf,%d,%lf,%d,%lf,%d,%lf,%d,%lf,%d",
 					i, p.second,
 					nsch_map[i][p.second].asd_prevalence, nsch_map[i][p.second].asd_count,
 					nsch_map[i][p.second].allergies_prevalence, nsch_map[i][p.second].allergies_count,
@@ -422,7 +442,8 @@ void outputData()
 					nsch_map[i][p.second].hospital_prevalence, nsch_map[i][p.second].hospital_count,
 					nsch_map[i][p.second].hospital_er_prevalence, nsch_map[i][p.second].hospital_er_count,
 					nsch_map[i][p.second].arthritis_prevalence, nsch_map[i][p.second].arthritis_count,
-					nsch_map[i][p.second].tourettes_prevalence, nsch_map[i][p.second].tourettes_count
+					nsch_map[i][p.second].tourettes_prevalence, nsch_map[i][p.second].tourettes_count,
+					nsch_map[i][p.second].mom_age, nsch_map[i][p.second].mom_count
 			);
 			//print data
 			for(auto pr : nis_map)
