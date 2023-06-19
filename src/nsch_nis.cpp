@@ -19,25 +19,28 @@
 
 struct row
 {
-	int birth_yr;
-	int state;
-	int asd;
-	int allergies;
-	int asthma;
-	int adhd;
-	int epilepsy;
-	int diabetes;
-	int hospital;
-	int hospital_er;
-	int arthritis;
-	int tourettes;
-	int mom_age;
-	int sc_age;
+	int birth_yr = 0;
+	int state = 0;
+	int asd = 0;
+	int asd_age = 0;
+	int allergies = 0;
+	int asthma = 0;
+	int adhd = 0;
+	int epilepsy = 0;
+	int diabetes = 0;
+	int hospital = 0;
+	int hospital_er = 0;
+	int arthritis = 0;
+	int tourettes = 0;
+	int mom_age = 0;
+	int sc_age = 0;
 };
 
 struct nsch_data
 {
 	double asd_prevalence;
+	double asd_prevalence_under3;
+	double asd_prevalence_under4;
 	int asd_count;
 	double allergies_prevalence;
 	int allergies_count;
@@ -135,6 +138,10 @@ void extractNsch()
 			{
 				r.sc_age = atoi(str.c_str());
 			}
+			if(i == 10)
+			{
+				r.asd_age = atoi(str.c_str());
+			}
 			if(i == 12)
 			{
 				r.birth_yr = atoi(str.c_str());
@@ -196,6 +203,8 @@ void extractNsch()
 void computePrevalence(int year, int region)
 {
 	int asd_yes = 0;
+	int asd_yes_under3 = 0;
+	int asd_yes_under4 = 0;
 	int asd_total = 0;
 	int allergies_yes = 0;
 	int allergies_total = 0;
@@ -231,7 +240,16 @@ void computePrevalence(int year, int region)
 			{
 				asd_total++;
 				if(r.asd == 1)
+				{
 					asd_yes++;
+					if(r.asd_age == 3)
+						asd_yes_under4++;
+					if(r.asd_age < 3)
+					{
+						asd_yes_under3++;
+						asd_yes_under4++;
+					}
+				}
 			}
 			if(r.allergies == 1 || r.allergies == 2)
 			{
@@ -292,6 +310,8 @@ void computePrevalence(int year, int region)
 	nsch_data data;
 	data.asd_count = asd_total;
 	data.asd_prevalence = (double)asd_yes/(double)asd_total;
+	data.asd_prevalence_under3 = (double)asd_yes_under3/(double)asd_total;
+	data.asd_prevalence_under4 = (double)asd_yes_under4/(double)asd_total;
 	data.allergies_count = allergies_total;
 	data.allergies_prevalence = (double)allergies_yes/(double)allergies_total;
 	data.adhd_count = adhd_total;
@@ -417,7 +437,7 @@ void constructLabels()
 void outputData()
 {
 	//print header
-	printf("year,region,asd_prev,asd_count,allergies_prev,allergies_count");
+	printf("year,region,asd_prev,asd_prev3,asd_prev4,asd_count,allergies_prev,allergies_count");
 	printf(",adhd_prev,adhd_count,asthma_prev,asthma_count,epilepsy_prev,epilepsy_count");
 	printf(",diabetes_prev,diabetes_count,hospital_prev,hopital_count");
 	printf(",hospital_er_prev,hopital_er_count,arthritis_prev,arthritis_count,tourettes_prev,tourettes_count,mom_age,mom_total");
@@ -431,9 +451,11 @@ void outputData()
 	{
 		for(auto p : state_code_map)
 		{
-			printf("%d,%d,%lf,%d,%lf,%d,%lf,%d,%lf,%d,%lf,%d,%lf,%d,%lf,%d,%lf,%d,%lf,%d,%lf,%d,%lf,%d",
+			printf("%d,%d,%lf,%lf,%lf,%d,%lf,%d,%lf,%d,%lf,%d,%lf,%d,%lf,%d,%lf,%d,%lf,%d,%lf,%d,%lf,%d,%lf,%d",
 					i, p.second,
-					nsch_map[i][p.second].asd_prevalence, nsch_map[i][p.second].asd_count,
+					nsch_map[i][p.second].asd_prevalence,
+					nsch_map[i][p.second].asd_prevalence_under3,nsch_map[i][p.second].asd_prevalence_under4,
+					nsch_map[i][p.second].asd_count,
 					nsch_map[i][p.second].allergies_prevalence, nsch_map[i][p.second].allergies_count,
 					nsch_map[i][p.second].adhd_prevalence, nsch_map[i][p.second].adhd_count,
 					nsch_map[i][p.second].asthma_prevalence, nsch_map[i][p.second].asthma_count,

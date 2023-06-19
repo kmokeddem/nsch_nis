@@ -131,7 +131,8 @@ summary(fit_allergies_35)
 summary(fit_adhd_35)
 summary(fit_asthma_35)
 
-
 correltable(a, vars = c("asd_prev", "allergies_prev", "adhd_prev", "asthma_prev"), vars2 = c("All.3", "All.5", "All.7", "All.13", "All.19", "All.24", "All.35"), tri="all")
 
+fit_asd_13_under3 <- lm("asd_prev3 ~ All.13", a, weights=a$asd_count)
 
+summary(fit_asd_13_under3)
