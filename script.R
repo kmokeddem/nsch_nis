@@ -136,3 +136,16 @@ correltable(a, vars = c("asd_prev", "allergies_prev", "adhd_prev", "asthma_prev"
 fit_asd_13_under3 <- lm("asd_prev3 ~ All.13", a, weights=a$asd_count)
 
 summary(fit_asd_13_under3)
+
+
+correltable(a[a$year == 2011,], vars = c("asd_prev", "allergies_prev", "adhd_prev", "asthma_prev"), vars2 = c("All.13"), tri="all")
+correltable(a[a$year == 2012,], vars = c("asd_prev", "allergies_prev", "adhd_prev", "asthma_prev"), vars2 = c("All.13"), tri="all")
+correltable(a[a$year == 2013,], vars = c("asd_prev", "allergies_prev", "adhd_prev", "asthma_prev"), vars2 = c("All.13"), tri="all")
+correltable(a[a$year == 2014,], vars = c("asd_prev", "allergies_prev", "adhd_prev", "asthma_prev"), vars2 = c("All.13"), tri="all")
+correltable(a[a$year == 2015,], vars = c("asd_prev", "allergies_prev", "adhd_prev", "asthma_prev"), vars2 = c("All.13"), tri="all")
+correltable(a[a$year == 2016,], vars = c("asd_prev", "allergies_prev", "adhd_prev", "asthma_prev"), vars2 = c("All.13"), tri="all")
+correltable(a[a$year == 2017,], vars = c("asd_prev", "allergies_prev", "adhd_prev", "asthma_prev"), vars2 = c("All.13"), tri="all")
+
+cor_coefs = c(.18,.18,.08,.21,.09,-.04,.07,.16,.35,.01,.27,.10,.37,-.13,.16,.01,-.15,.21,.23,-.03,.38,.1,.17,-.3,.19,.23,.22,.27)
+t.test(cor_coefs)
+
