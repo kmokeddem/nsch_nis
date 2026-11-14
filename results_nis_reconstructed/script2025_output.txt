@@ -1,0 +1,413 @@
+Input: data/joined_data2025_nis_reconstructed.csv 
+==================== PART 1: replication of the paper ====================
+Birth years 2011-2017, 357 state-year rows
+
+Table 1. Prevalence of disease as measured in NSCH.
+   disease prevalence_pct      n
+    autism         4.2260 118600
+ allergies        28.6500 118900
+      adhd        11.3400 118400
+    asthma         9.7790 118300
+     blood         0.4503 118800
+  epilepsy         1.0380 118500
+   obesity         5.4390 118600
+ tourettes         0.2665 118600
+
+Table 2. Associations between disease prevalence.
+          autism allergies adhd   asthma blood epilepsy obesity tourettes
+autism    -      .20***    .31*** .22*** .05   .07      .26***  .19***   
+allergies .20*** -         .55*** .54*** .03   .16**    .53***  .29***   
+adhd      .31*** .55***    -      .55*** -.01  .18***   .59***  .42***   
+asthma    .22*** .54***    .55*** -      .07   .17**    .60***  .39***   
+blood     .05    .03       -.01   .07    -     .05      .11*    -.03     
+epilepsy  .07    .16**     .18*** .17**  .05   -        .19***  .19***   
+obesity   .26*** .53***    .59*** .60*** .11*  .19***   -       .39***   
+tourettes .19*** .29***    .42*** .39*** -.03  .19***   .39***  -        
+Note. Pearson r. * p<.05, ** p<.01, *** p<.001
+
+Table 3. Prevalence ~ summed aluminum-vaccine likelihood at 6-12 months (All.13), weighted by NSCH n.
+(p_cl = p-value with state-clustered SEs, not in the paper)
+   outcome     beta     t         p      r2      p_cl
+    autism 0.017640 4.882 1.587e-06 0.06293 5.939e-05
+ allergies 0.082710 5.859 1.063e-08 0.08817 1.197e-03
+      adhd 0.076250 5.682 2.772e-08 0.08337 3.513e-04
+    asthma 0.037690 4.679 4.115e-06 0.05808 1.350e-03
+     blood 0.002555 2.253 2.488e-02 0.01409 7.065e-02
+  epilepsy 0.005506 3.355 8.787e-04 0.03074 3.099e-03
+   obesity 0.064840 8.948 2.039e-17 0.18400 3.784e-09
+ tourettes 0.003068 3.426 6.850e-04 0.03200 1.947e-03
+
+Table 4. Vaccine likelihood from 6-12 months vs chronic disease.
+          DTaP   HepB   Hib    PCV    Polio
+autism    .16**  .19*** .08    .19*** .11* 
+allergies .28*** .23*** .04    .28*** .14**
+adhd      .34*** .11*   .18*** .33*** .15**
+asthma    .14**  .23*** -.02   .20*** -.02 
+blood     .06    .14**  -.02   .09    -.04 
+epilepsy  .21*** .07    .15**  .16**  .09  
+obesity   .28*** .38*** .07    .36*** .14* 
+tourettes .11*   .14**  .03    .12*   -.02 
+Note. Pearson r. * p<.05, ** p<.01, *** p<.001
+
+Table 5. Vaccine likelihood from 4-6 months vs chronic disease.
+          DTaP    HepB   Hib    PCV     Polio 
+autism    -.12*   .14**  .08    -.15**  .05   
+allergies -.18*** .24*** .27*** -.18*** .30***
+adhd      -.25*** .32*** .27*** -.25*** .28***
+asthma    -.05    .21*** .17**  -.11*   .16** 
+blood     .04     .01    .03    .01     .04   
+epilepsy  -.19*** .09    .15**  -.19*** .17** 
+obesity   -.17**  .29*** .28*** -.26*** .30***
+tourettes -.08    .11*   .08    -.12*   .10*  
+Note. Pearson r. * p<.05, ** p<.01, *** p<.001
+
+Table 6. Vaccine likelihood from 12-18 months vs chronic disease.
+          DTaP  HepB   Hib     PCV    Polio
+autism    .09   .12*   -.04    .13*   -.06 
+allergies .07   .16**  -.08    .12*   .03  
+adhd      .15** .21*** -.13*   .21*** -.04 
+asthma    -.03  .06    -.28*** .01    .01  
+blood     -.12* -.05   .04     -.06   .13* 
+epilepsy  .13*  .08    -.07    .18*** -.06 
+obesity   .06   .20*** -.25*** .11*   -.10 
+tourettes .04   .09    -.04    .07    -.07 
+Note. Pearson r. * p<.05, ** p<.01, *** p<.001
+
+cor(Hib.13, HepB.13) = -0.18
+
+Table 7. Aggregated vaccine likelihood vs chronic disease for each time bucket.
+          0m-2m  2m-4m   4m-6m  6m-12m 12m-18m 18m-24m 24m-36m
+autism    -.06   -.08    -.12*  .22*** -.01    .15**   .06    
+allergies -.06   -.15**  -.01   .28*** -.02    .09     .13*   
+adhd      -.12*  -.20*** -.11*  .29*** -.06    .15**   .14**  
+asthma    -.02   -.07    .04    .19*** -.25*** .03     -.00   
+blood     .06    .05     .06    .09    .04     .06     -.03   
+epilepsy  -.14** -.18*** -.15** .19*** -.03    .09     .07    
+obesity   -.14** -.20*** -.06   .39*** -.21*** .23***  .15**  
+tourettes -.09   -.09    -.06   .14**  -.03    .06     .10    
+Note. Pearson r. * p<.05, ** p<.01, *** p<.001
+
+Autism diagnosed before age 3 ~ All.13 (from script2022.R):
+              Estimate  Std. Error  t value     Pr(>|t|)
+(Intercept) 0.00681378 0.001873614 3.636705 0.0003170312
+All.13      0.00347100 0.001895434 1.831243 0.0679022055
+
+Table 3 extended: birth years 2002-2021, prevalence ~ All.13 + birth-year fixed effects
+   outcome    n      beta         p     p_cl pct_per_sd
+    autism 1020 0.0114700 6.328e-08 0.001324      6.621
+ allergies 1020 0.0296400 2.095e-05 0.093290      2.297
+      adhd 1020 0.0088490 9.565e-02 0.583200      1.721
+    asthma 1020 0.0070270 8.603e-02 0.454100      1.452
+     blood 1020 0.0028190 2.499e-04 0.006605     12.600
+  epilepsy 1020 0.0028580 7.645e-03 0.031520      6.026
+   obesity 1020 0.0297300 1.558e-16 0.001463     10.480
+ tourettes 1020 0.0007411 2.021e-01 0.308200      5.513
+
+
+==================== PART 2: glyphosate ====================
+Birth years 2002-2019, 49 states (AK/HI not covered by USGS), 882 rows
+Share of log-exposure variance between states: 96.0%
+
+Table G1. Correlation of disease prevalence with log glyphosate exposure (several index definitions).
+          popw_high popw_low birthw_high area_high per_capita
+autism    -.11**    -.11**   -.11**      -.08*     -.17***   
+allergies -.08*     -.09*    -.09**      -.05      -.12***   
+adhd      -.03      -.04     -.03        -.03      -.05      
+asthma    -.25***   -.26***  -.25***     -.23***   -.26***   
+blood     -.10**    -.10**   -.10**      -.06      -.14***   
+epilepsy  -.02      -.03     -.02        -.03      -.01      
+obesity   -.15***   -.15***  -.15***     -.12***   -.24***   
+tourettes -.14***   -.14***  -.14***     -.12***   -.13***   
+Note. Pearson r. * p<.05, ** p<.01, *** p<.001
+
+Table G2. Correlation of glyphosate exposure with aluminum-vaccine windows (confounding check).
+           glyphosate 0m-2m   2m-4m   4m-6m   6m-12m  12m-18m 18m-24m 24m-36m
+glyphosate -          -.02    -.04    -.00    .03     .06     .06     .00    
+0m-2m      -.02       -       .90***  .65***  -.59*** .06     -.40*** -.45***
+2m-4m      -.04       .90***  -       .63***  -.70*** .02     -.46*** -.50***
+4m-6m      -.00       .65***  .63***  -       -.59*** -.19*** -.40*** -.36***
+6m-12m     .03        -.59*** -.70*** -.59*** -       .09**   .52***  .34*** 
+12m-18m    .06        .06     .02     -.19*** .09**   -       .18***  .02    
+18m-24m    .06        -.40*** -.46*** -.40*** .52***  .18***  -       .27*** 
+24m-36m    .00        -.45*** -.50*** -.36*** .34***  .02     .27***  -      
+Note. Pearson r. * p<.05, ** p<.01, *** p<.001
+
+Table G3. Weighted regression of prevalence on log glyphosate exposure.
+beta = change in prevalence per 1 log-unit; p = naive; p_cl/sig = state-clustered;
+pct_per_sd = effect of +1 SD exposure as % of mean prevalence.
+M5 uses only within-state year-to-year changes (little variation; low power).
+                              model   outcome   n       beta         p     se_cl      p_cl sig pct_per_sd
+                           M1 crude    autism 882 -8.995e-04 1.274e-03 0.0005948 1.370e-01      -3.626000
+                           M1 crude allergies 882 -2.252e-03 8.883e-02 0.0022930 3.308e-01      -1.225000
+                           M1 crude      adhd 882 -8.623e-04 5.135e-01 0.0019130 6.542e-01      -1.117000
+                           M1 crude    asthma 882 -6.477e-03 6.542e-12 0.0014420 4.456e-05 ***  -9.207000
+                           M1 crude     blood 882 -2.822e-04 2.154e-03 0.0001067 1.102e-02   *  -9.366000
+                           M1 crude  epilepsy 882 -4.341e-05 7.608e-01 0.0001332 7.460e-01      -0.644100
+                           M1 crude   obesity 882 -3.493e-03 2.632e-05 0.0011480 3.812e-03  **  -8.338000
+                           M1 crude tourettes 882 -3.386e-04 4.682e-05 0.0001116 3.895e-03  ** -16.750000
+                 M2 + birth year FE    autism 882 -8.850e-04 9.742e-04 0.0005952 1.435e-01      -3.568000
+                 M2 + birth year FE allergies 882  1.740e-04 8.378e-01 0.0022530 9.388e-01       0.094630
+                 M2 + birth year FE      adhd 882  1.586e-03 1.856e-02 0.0018150 3.868e-01       2.054000
+                 M2 + birth year FE    asthma 882 -4.114e-03 6.883e-16 0.0012340 1.658e-03  **  -5.848000
+                 M2 + birth year FE     blood 882 -2.389e-04 9.259e-03 0.0001101 3.495e-02   *  -7.928000
+                 M2 + birth year FE  epilepsy 882  8.348e-05 5.391e-01 0.0001244 5.054e-01       1.239000
+                 M2 + birth year FE   obesity 882 -1.557e-03 9.273e-04 0.0010630 1.494e-01      -3.718000
+                 M2 + birth year FE tourettes 882 -2.505e-04 8.112e-04 0.0001052 2.127e-02   * -12.390000
+        M3 + birth year FE + All.13    autism 882 -1.045e-03 8.555e-05 0.0005678 7.190e-02      -4.213000
+        M3 + birth year FE + All.13 allergies 882 -3.032e-04 7.192e-01 0.0022480 8.933e-01      -0.164900
+        M3 + birth year FE + All.13      adhd 882  1.467e-03 3.022e-02 0.0018370 4.285e-01       1.900000
+        M3 + birth year FE + All.13    asthma 882 -4.328e-03 2.065e-17 0.0012610 1.241e-03  **  -6.153000
+        M3 + birth year FE + All.13     blood 882 -2.819e-04 2.068e-03 0.0001044 9.507e-03  **  -9.357000
+        M3 + birth year FE + All.13  epilepsy 882  3.985e-05 7.698e-01 0.0001140 7.283e-01       0.591300
+        M3 + birth year FE + All.13   obesity 882 -2.033e-03 6.757e-06 0.0009043 2.922e-02   *  -4.853000
+        M3 + birth year FE + All.13 tourettes 882 -2.639e-04 4.493e-04 0.0001027 1.333e-02   * -13.050000
+ M4 + birth year FE + age at survey    autism 882 -1.100e-03 5.687e-05 0.0005759 6.217e-02      -4.434000
+ M4 + birth year FE + age at survey allergies 882 -7.463e-06 9.932e-01 0.0023920 9.975e-01      -0.004059
+ M4 + birth year FE + age at survey      adhd 882  1.779e-03 9.867e-03 0.0019560 3.676e-01       2.305000
+ M4 + birth year FE + age at survey    asthma 882 -4.534e-03 2.586e-18 0.0012450 6.616e-04 ***  -6.444000
+ M4 + birth year FE + age at survey     blood 882 -2.117e-04 2.418e-02 0.0001080 5.585e-02      -7.024000
+ M4 + birth year FE + age at survey  epilepsy 882  1.054e-04 4.493e-01 0.0001334 4.337e-01       1.563000
+ M4 + birth year FE + age at survey   obesity 882 -1.802e-03 1.778e-04 0.0011900 1.367e-01      -4.301000
+ M4 + birth year FE + age at survey tourettes 882 -2.427e-04 1.526e-03 0.0001068 2.754e-02   * -12.010000
+        M5 state FE + birth year FE    autism 882 -3.881e-03 1.882e-02 0.0018730 4.364e-02   * -15.650000
+        M5 state FE + birth year FE allergies 882 -5.223e-03 2.083e-01 0.0050660 3.077e-01      -2.841000
+        M5 state FE + birth year FE      adhd 882  9.734e-03 2.064e-03 0.0040570 2.037e-02   *  12.610000
+        M5 state FE + birth year FE    asthma 882 -2.139e-03 4.598e-01 0.0035130 5.454e-01      -3.041000
+        M5 state FE + birth year FE     blood 882 -6.614e-05 9.129e-01 0.0007119 9.264e-01      -2.195000
+        M5 state FE + birth year FE  epilepsy 882  5.092e-04 5.768e-01 0.0011030 6.463e-01       7.555000
+        M5 state FE + birth year FE   obesity 882  5.727e-03 2.210e-02 0.0028650 5.130e-02      13.670000
+        M5 state FE + birth year FE tourettes 882 -4.527e-04 3.592e-01 0.0004172 2.833e-01     -22.390000
+
+Table G4. Quasibinomial GLM: prevalence ~ log glyphosate + birth-year FE.
+   outcome odds_ratio_per_log       t         p sig
+    autism             0.9778 -3.2740 1.104e-03  **
+ allergies             1.0010  0.2038 8.386e-01    
+      adhd             1.0150  2.4470 1.460e-02   *
+    asthma             0.9599 -8.4150 1.620e-16 ***
+     blood             0.9532 -2.6360 8.546e-03  **
+  epilepsy             1.0080  0.6273 5.307e-01    
+   obesity             0.9752 -3.5730 3.730e-04 ***
+ tourettes             0.9273 -3.5620 3.885e-04 ***
+
+Quintile cut points (kg/km2, population-weighted, high): 0 | 0.95 | 3.84 | 9.6 | 19.51 | 76.21 
+
+Table G5. Prevalence difference by glyphosate quintile vs Q1 (birth-year FE, state-clustered stars).
+   outcome  Q1_prev Q2_vs_Q1 Q3_vs_Q1 Q4_vs_Q1   Q5_vs_Q1
+    autism 0.041660  +0.0001  +0.0017  -0.0008    -0.0051
+ allergies 0.305300  -0.0042  +0.0017  +0.0151    -0.0072
+      adhd 0.130800  -0.0072  -0.0031  +0.0156    -0.0012
+    asthma 0.129500  -0.0083  -0.0051 -0.0114* -0.0228***
+     blood 0.005457  -0.0001  -0.0007  +0.0002   -0.0013*
+  epilepsy 0.011160  -0.0000  +0.0001  +0.0005    +0.0001
+   obesity 0.073300  +0.0000  +0.0017  +0.0018    -0.0083
+ tourettes 0.003803  +0.0004  -0.0005  -0.0005    -0.0010
+
+Table G6. GAM smooth term s(log glyphosate) + birth-year FE (edf > 1 suggests nonlinearity; naive SEs).
+   outcome   edf       F         p sig
+    autism 3.634 15.5900 0.0000000 ***
+ allergies 3.694  6.5000 0.0004299 ***
+      adhd 3.938 20.8500 0.0000000 ***
+    asthma 3.748 29.0900 0.0000000 ***
+     blood 2.856  3.5530 0.0107500   *
+  epilepsy 1.005  0.3754 0.5428000    
+   obesity 3.661 13.6700 0.0000000 ***
+ tourettes 1.463  5.7610 0.0032640  **
+
+Table G7. Sensitivity of M2 (birth-year FE) glyphosate coefficient; stars use state-clustered p.
+                                    sensitivity   autism allergies    adhd     asthma      blood epilepsy    obesity tourettes
+                            popw_high (primary)  -0.0009   +0.0002 +0.0016  -0.0041**   -0.0002*  +0.0001    -0.0016  -0.0003*
+                                       popw_low  -0.0009   +0.0002 +0.0016  -0.0040**   -0.0002*  +0.0001    -0.0015  -0.0003*
+                           births-weighted high  -0.0009   +0.0000 +0.0015  -0.0041**   -0.0003*  +0.0001    -0.0016  -0.0003*
+                              state kg/km2 high  -0.0006   +0.0014 +0.0017  -0.0031**    -0.0001  +0.0001    -0.0004   -0.0002
+                             kg per capita high -0.0011*   -0.0012 +0.0009 -0.0038*** -0.0003***  +0.0001 -0.0034***  -0.0002*
+ final USGS est. only / paper years (2011-2017)  -0.0011   -0.0002 +0.0017 -0.0046***   -0.0003*  +0.0000    -0.0018  -0.0003*
+
+==================== Negative control (blood disorders) ====================
+                              model          beta        p_cl pct_per_sd
+                           M1 crude -2.822286e-04 0.011021016  -9.366483
+                 M2 + birth year FE -2.388754e-04 0.034945510  -7.927695
+        M3 + birth year FE + All.13 -2.819427e-04 0.009507276  -9.356997
+ M4 + birth year FE + age at survey -2.116532e-04 0.055847454  -7.024258
+        M5 state FE + birth year FE -6.613819e-05 0.926368299  -2.194966
+M2: 2 of 7 inflammatory outcomes significant (clustered p<.05); blood p_cl = 0.035
+A glyphosate association with blood disorders comparable to the inflammatory outcomes
+would point to confounding (state-level differences unrelated to inflammation).
+
+
+==================== PART 3: aluminum exposure model, residuals vs glyphosate ====================
+Sample: birth years 2002-2019, 49 states, 881 rows
+
+Table A1. Aluminum exposure model: prevalence ~ 7 aluminum-vaccine windows + birth-year FE (weighted by NSCH n).
+partial_r2_alum = share of variance beyond birth year explained by the windows; wald = joint test of the 7 windows (state-clustered).
+   outcome   n r2_full partial_r2_alum wald_F wald_p_cl sig
+    autism 881 0.13970        0.036140 2.7620 0.0170500   *
+ allergies 881 0.61780        0.038800 1.7550 0.1187000    
+      adhd 881 0.75600        0.032570 1.6430 0.1463000    
+    asthma 881 0.72200        0.022970 1.3090 0.2668000    
+     blood 881 0.06661        0.028310 2.4790 0.0295300   *
+  epilepsy 881 0.13740        0.016980 2.2690 0.0443700   *
+   obesity 881 0.72540        0.108600 4.7940 0.0003788 ***
+ tourettes 881 0.22630        0.006202 0.6845 0.6844000    
+
+Table A2. Aluminum model coefficients by age window (change in prevalence per unit summed vaccine likelihood; state-clustered stars).
+   outcome  0m-2m   2m-4m  4m-6m    6m-12m 12m-18m 18m-24m 24m-36m
+    autism -0.000  +0.003 +0.009  +0.014**  -0.006  +0.004  +0.012
+ allergies +0.028  -0.007 -0.004   +0.044*  +0.015  -0.037  +0.039
+      adhd +0.058  -0.028 -0.027    +0.010  +0.032  -0.028  +0.010
+    asthma +0.018  +0.000 +0.004   +0.020*  -0.019  +0.003  -0.006
+     blood -0.002  +0.003 +0.002  +0.004**  -0.000  +0.005  -0.000
+  epilepsy +0.003 -0.005* -0.000    +0.001  +0.001  -0.003  -0.001
+   obesity +0.009  +0.012 +0.011 +0.048***  -0.011  +0.022  -0.000
+ tourettes -0.000  +0.001 -0.001    +0.001  +0.000  -0.000  +0.004
+
+Table A3. Aluminum-model residuals vs log glyphosate exposure.
+r/beta_resid: residual regressed directly on glyphosate.
+beta_joint: glyphosate coefficient added to the aluminum model (Frisch-Waugh adjusted); pct_per_sd_joint = +1 SD glyphosate as % of mean prevalence.
+partial_r2_glyph = share of the aluminum model's residual variance explained by glyphosate. GAM p-values are not clustered.
+   outcome r_resid_glyph       p_r beta_resid p_resid_cl beta_joint p_joint_cl sig_joint pct_per_sd_joint partial_r2_glyph gam_edf gam_p_naive
+    autism      -0.13210 8.353e-05 -9.850e-04  0.0758500 -1.025e-03  0.0705200                    -4.1310        1.699e-02   3.722   0.0000000
+ allergies      -0.04935 1.433e-01 -3.097e-04  0.8847000 -3.222e-04  0.8819000                    -0.1752        1.690e-04   3.731   0.0015180
+      adhd       0.03971 2.390e-01  1.257e-03  0.4744000  1.308e-03  0.4605000                     1.6950        4.394e-03   3.936   0.0000000
+    asthma      -0.27530 8.730e-17 -4.112e-03  0.0006971 -4.278e-03  0.0006827       ***          -6.0800        7.865e-02   3.737   0.0000000
+     blood      -0.09407 5.199e-03 -2.790e-04  0.0076890 -2.903e-04  0.0091630        **          -9.6370        1.159e-02   2.754   0.0038340
+  epilepsy      -0.01283 7.037e-01  3.055e-05  0.7727000  3.178e-05  0.7582000                     0.4714        6.287e-05   1.006   0.8290000
+   obesity      -0.13780 4.078e-05 -1.939e-03  0.0288300 -2.018e-03  0.0319600         *          -4.8170        2.321e-02   3.636   0.0000000
+ tourettes      -0.11450 6.594e-04 -2.535e-04  0.0156100 -2.638e-04  0.0176600         *         -13.0500        1.406e-02   1.002   0.0005551
+
+Table A4. Mean aluminum-model residual by glyphosate quintile, as % of mean prevalence (stars: Q vs Q1, state-clustered).
+Quintile cut points (kg/km2): 0 | 0.95 | 3.82 | 9.58 | 19.5 | 76.21 
+   outcome     Q1     Q2     Q3      Q4        Q5
+    autism  +5.2%  +0.2%  +5.4%   -0.8%    -8.8%*
+ allergies  +1.0%  -2.1%  -0.1%   +4.1%     -2.2%
+      adhd  +0.1%  -5.5%  -3.0%  +10.8%     -1.4%
+    asthma  +9.0%  +1.3%  +3.6% -1.6%** -10.2%***
+     blood +15.4%  +2.5% -7.6%*   +9.6%  -14.5%**
+  epilepsy  +3.6%  -3.5%  -2.0%   +1.6%     +1.1%
+   obesity  +6.2%  -0.6%  +2.3%   +2.2%    -8.4%*
+ tourettes +13.1% +17.4%  -3.7%   -4.7%    -18.0%
+
+==================== Negative control (blood) after aluminum model ====================
+ r_resid_glyph  p_resid_cl    beta_joint  p_joint_cl pct_per_sd_joint
+   -0.09407146 0.007688593 -0.0002902865 0.009163464        -9.637453
+Inflammatory outcomes with residual-glyphosate association (joint model, clustered p<.05): asthma, obesity, tourettes
+
+
+==================== PART 4: aluminum micrograms model (low / high product bounds) ====================
+Sample: birth years 2002-2021, 51 states, 1019 rows. Units: 100 ug aluminum.
+
+Table U1. Mean vaccine aluminum (ug) per window, low vs high bound.
+r_ug_*_vs_count = correlation with the paper's dose-count window (All.m); below 1 = product-mix variation.
+between_state_share_high = extra share of variance explained by state beyond birth year.
+  window mean_ug_low mean_ug_high sd_ug_low sd_ug_high r_low_high r_ug_low_vs_count r_ug_high_vs_count between_state_share_high
+   0m-2m       920.0         1070     134.0       98.0    0.08200            0.4520             0.2540                    0.222
+   2m-4m       594.0          749     130.0      136.0    0.26300            0.3950             0.0379                    0.209
+   4m-6m       602.0          734     111.0       90.0    0.00641            0.5180            -0.0254                    0.135
+  6m-12m       393.0          471      74.3       62.8    0.57300           -0.0305             0.5650                    0.571
+ 12m-18m       394.0          635     104.0       65.7    0.58600            0.0563             0.3320                    0.434
+ 18m-24m        97.8          144      31.1       33.0    0.82700            0.1890             0.5860                    0.312
+ 24m-36m       129.0          168      43.7       52.2    0.95000            0.3930             0.5200                    0.314
+
+Table U2. Prevalence ~ ug aluminum received at 6-12 months (per 100 ug) + birth-year FE.
+*_adj_count: same, also adjusting for the paper's dose-count window All.13 (isolates product-mix / brand variation).
+ bound           years   outcome beta_per100ug    p_cl sig pct_per_sd beta_adj_count p_cl_adj_count sig_adj
+   low paper 2011-2017    autism     2.890e-03 0.06514        3.68300     -9.308e-04      0.6248000        
+   low paper 2011-2017 allergies     9.340e-03 0.40070        1.75600      3.131e-04      0.9832000        
+   low paper 2011-2017      adhd     1.052e-02 0.06693        4.99500      1.040e-02      0.1269000        
+   low paper 2011-2017    asthma    -1.393e-03 0.72640       -0.76700     -6.381e-03      0.2182000        
+   low paper 2011-2017     blood    -1.085e-04 0.79960       -1.29800     -1.206e-03      0.0083180      **
+   low paper 2011-2017  epilepsy     1.278e-03 0.03099   *    6.63600      7.511e-04      0.3128000        
+   low paper 2011-2017   obesity     1.378e-03 0.66990        1.36500     -1.141e-02      0.0023300      **
+   low paper 2011-2017 tourettes     6.876e-05 0.83110        1.39000     -3.406e-04      0.4510000        
+   low       all years    autism     2.861e-03 0.02953   *    5.48100      2.387e-05      0.9866000        
+   low       all years allergies     5.488e-03 0.53010        1.41200     -3.251e-03      0.7860000        
+   low       all years      adhd     8.362e-03 0.14180        5.39800      1.093e-02      0.1114000        
+   low       all years    asthma    -1.663e-03 0.66230       -1.14100     -5.935e-03      0.1910000        
+   low       all years     blood    -1.054e-04 0.72820       -1.56300     -1.427e-03      0.0006314     ***
+   low       all years  epilepsy     1.149e-03 0.03079   *    8.04100      7.886e-04      0.1986000        
+   low       all years   obesity     1.029e-03 0.69250        1.20500     -1.118e-02      0.0011040      **
+   low       all years tourettes     2.736e-05 0.90380        0.67560     -2.763e-04      0.3966000        
+  high paper 2011-2017    autism     3.238e-03 0.02269   *    4.59800      1.862e-04      0.9163000        
+  high paper 2011-2017 allergies     8.975e-03 0.34620        1.88000      1.128e-03      0.9322000        
+  high paper 2011-2017      adhd     7.858e-03 0.16900        4.15800      6.766e-03      0.3132000        
+  high paper 2011-2017    asthma     1.117e-04 0.97620        0.06852     -3.574e-03      0.4236000        
+  high paper 2011-2017     blood    -1.431e-04 0.71330       -1.90600     -1.201e-03      0.0051880      **
+  high paper 2011-2017  epilepsy     1.020e-03 0.06693        5.89800      4.553e-04      0.5303000        
+  high paper 2011-2017   obesity     2.624e-03 0.38030        2.89400     -8.275e-03      0.0211300       *
+  high paper 2011-2017 tourettes     6.589e-05 0.82370        1.48300     -3.117e-04      0.4507000        
+  high       all years    autism     2.681e-03 0.02427   *    4.34200      5.010e-04      0.6955000        
+  high       all years allergies     4.501e-03 0.49410        0.97840     -3.149e-03      0.7531000        
+  high       all years      adhd     4.713e-03 0.38990        2.57100      5.309e-03      0.3967000        
+  high       all years    asthma    -2.564e-04 0.93980       -0.14870     -3.129e-03      0.4314000        
+  high       all years     blood    -9.182e-05 0.74680       -1.15100     -1.269e-03      0.0006313     ***
+  high       all years  epilepsy     9.850e-04 0.02426   *    5.82400      7.206e-04      0.1785000        
+  high       all years   obesity     1.976e-03 0.41600        1.95500     -7.855e-03      0.0183100       *
+  high       all years tourettes     1.461e-04 0.49120        3.04800     -1.757e-05      0.9529000        
+
+Table U3. Aluminum ug model: prevalence ~ 7 ug windows + birth-year FE.
+partial_r2_* = share of variance beyond birth year explained by the ug windows vs the paper's 7 dose-count windows.
+wald_p_ug = joint test of the 7 ug windows; wald_p_ug_beyond_count = same test with the 7 count windows also in the model (U4).
+ bound   outcome    n partial_r2_ug partial_r2_count wald_p_ug sig_ug wald_p_ug_beyond_count sig_beyond
+   low    autism 1019      0.037490         0.037680 0.0087390     **              0.4162000           
+   low allergies 1019      0.034650         0.028900 0.0941300                     0.3879000           
+   low      adhd 1019      0.080280         0.029200 0.0116300      *              0.0177000          *
+   low    asthma 1019      0.017340         0.020410 0.8431000                     0.5854000           
+   low     blood 1019      0.013320         0.022370 0.2399000                     0.1774000           
+   low  epilepsy 1019      0.014450         0.013640 0.0683000                     0.3318000           
+   low   obesity 1019      0.077380         0.088470 0.0012040     **              0.0007186        ***
+   low tourettes 1019      0.005834         0.004822 0.3513000                     0.5134000           
+  high    autism 1019      0.037530         0.037680 0.0035140     **              0.0899000           
+  high allergies 1019      0.034290         0.028900 0.1116000                     0.0819500           
+  high      adhd 1019      0.068280         0.029200 0.0186500      *              0.0059990         **
+  high    asthma 1019      0.013480         0.020410 0.8705000                     0.7769000           
+  high     blood 1019      0.010190         0.022370 0.3577000                     0.1388000           
+  high  epilepsy 1019      0.013560         0.013640 0.1846000                     0.4751000           
+  high   obesity 1019      0.075230         0.088470 0.0004038    ***              0.0021010         **
+  high tourettes 1019      0.011740         0.004822 0.0803100                     0.1153000           
+
+Table U3b. ug model coefficients by window (change in prevalence per 100 ug; state-clustered stars).
+ bound   outcome     0m-2m      2m-4m     4m-6m     6m-12m    12m-18m    18m-24m   24m-36m
+   low    autism  -0.00036   -0.00095  -0.00100   +0.00231   +0.00181   +0.00448  +0.00072
+   low allergies  +0.01034   -0.00882  -0.00543   +0.00655   +0.00507   -0.00421  -0.00721
+   low      adhd +0.01224*   -0.00519  -0.00226   +0.01027   -0.00483   -0.01563 -0.01235*
+   low    asthma  +0.00382   -0.00324  -0.00203   -0.00303   -0.00219   +0.00589  -0.00268
+   low     blood  +0.00031   +0.00022 -0.00118*   -0.00038   +0.00003   +0.00061  -0.00028
+   low  epilepsy  -0.00075   -0.00023  +0.00083 +0.00140**   +0.00070   +0.00084  -0.00101
+   low   obesity  +0.00259   -0.00263 -0.00715*   -0.00075   +0.00540   +0.01012  -0.00124
+   low tourettes  +0.00028   -0.00005  -0.00051   -0.00010   +0.00010   +0.00028  +0.00010
+  high    autism  +0.00012   -0.00186  -0.00015  +0.00236*  +0.00247*   +0.00346  +0.00072
+  high allergies  +0.01000   -0.01090  -0.00104   +0.00644   +0.00667   -0.00259  -0.00418
+  high      adhd +0.01154*   -0.00308  -0.00266   +0.00643   -0.00541   -0.01100 -0.00968*
+  high    asthma  +0.00275   -0.00422  +0.00023   -0.00041   +0.00208   +0.00428  -0.00244
+  high     blood  +0.00018   -0.00022  -0.00052   -0.00025   +0.00037   +0.00096  -0.00020
+  high  epilepsy  -0.00072   -0.00014  +0.00068 +0.00120**   +0.00035   +0.00029  -0.00061
+  high   obesity  +0.00248 -0.00629**  -0.00123   +0.00149 +0.00821** +0.01083**  -0.00129
+  high tourettes  +0.00019   -0.00024  -0.00035   +0.00018  +0.00061*   +0.00009  +0.00014
+
+Table U5. Glyphosate added to the ug model (birth years 2002-2019).
+ bound   outcome   n beta_glyph      p_cl sig pct_per_sd
+   low    autism 881 -1.122e-03 0.0759500       -4.52200
+   low allergies 881 -5.045e-04 0.8209000       -0.27440
+   low      adhd 881  9.420e-04 0.5888000        1.22000
+   low    asthma 881 -4.558e-03 0.0005982 ***   -6.47900
+   low     blood 881 -2.922e-04 0.0091540  **   -9.70000
+   low  epilepsy 881 -5.775e-05 0.6434000       -0.85650
+   low   obesity 881 -1.936e-03 0.0447100   *   -4.62300
+   low tourettes 881 -2.715e-04 0.0126700   *  -13.43000
+  high    autism 881 -9.373e-04 0.1289000       -3.77800
+  high allergies 881  1.767e-04 0.9381000        0.09608
+  high      adhd 881  1.127e-03 0.4935000        1.46000
+  high    asthma 881 -4.447e-03 0.0006487 ***   -6.32100
+  high     blood 881 -2.603e-04 0.0183800   *   -8.64100
+  high  epilepsy 881  5.314e-06 0.9665000        0.07881
+  high   obesity 881 -1.488e-03 0.1225000       -3.55300
+  high tourettes 881 -2.504e-04 0.0177100   *  -12.39000
+
+==================== Negative control (blood), ug model ====================
+ bound wald_p_ug wald_p_ug_beyond_count
+   low 0.2399121              0.1773708
+  high 0.3576817              0.1388176
+ bound           years beta_per100ug      p_cl beta_adj_count p_cl_adj_count
+   low paper 2011-2017 -1.085331e-04 0.7995509   -0.001205949    0.008317538
+   low       all years -1.053729e-04 0.7282001   -0.001426902    0.000631418
+  high paper 2011-2017 -1.430578e-04 0.7132584   -0.001200706    0.005188117
+  high       all years -9.181807e-05 0.7468361   -0.001268843    0.000631313
